@@ -1,2 +1,11 @@
-# uml-design-tool-for-smart-boards
-Dies ist ein Tool um grundlegende Klassendiagramme zu erstellen. Der Fokus liegt dabei auf der Benutzbarkeit für das Smart-Boards.
+# UML-Design-Tool
+Dies ist ein Tool um grundlegende Klassendiagramme zu erstellen und wurde für den Gebrauch des Smartboards optimiert.
+
+Folgende Funktionalitäten wurden implementiert:
+•	Eine Menüleiste mit großen Schaltflächen zum Hinzufügen von:
+  o	Klassen mit Attributen und Methoden
+  o	Beziehungen mit Kardinalitäten und Bezeichnern
+•	Klassen und deren Spezifikationen können umbenannt, bewegt und gelöscht werden
+•	Objektdiagramm kann aus Klassendiagramm erzeugt werden
+
+Für die Benutzung des Tools wird im Mozilla Firefox vorgeschlagen!
