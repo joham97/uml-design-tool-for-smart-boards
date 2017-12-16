@@ -15,6 +15,9 @@ var tempClass1 = -1;
 
 var classButton;
 
+var objectToEdit = -1;
+var objectAttrToEdit = -1;
+
 function initObjectdiagram() {
     this.objectdiagramheight = 25 * this.classes.length + 50;
 
@@ -105,9 +108,15 @@ function markAll(mark) {
 }
 
 function clickObjectDiagram() {
+    if (this.ignoreInputAtAll && this.objectToEdit != -1) {
+        closeObjRename();
+    }
+    
     for (let i = 0; i < predefined.length; i++) {
         if (hitbox(mouseX, mouseY, 20, 40 + this.objectdiagramheight + 178 + i * 25, this.objectdiagramwidth, 25)) {
             selectedAttributeText = i;
+            waitForSelect = false;
+            loeschenObjectDiagram = false;
         }
     }
 
@@ -140,7 +149,20 @@ function clickObjectDiagram() {
             if (res != -1) {
                 let attr = objects[i].attributes[res].split("\"");
                 objects[i].setAttribute(res, attr[0] + "\"" + predefined[selectedAttributeText] + "\"" + attr[2]);
+                selectedAttributeText = -1;
             }
+        }
+    }else{
+        if (!this.waitForSelect && !gotDragged) {
+            for (let i = this.objects.length - 1; i >= 0; i--) {
+                if (this.objects[i].checkHitbox(mouseX, mouseY)) {
+                    let id = this.objects[i].getAttributeByPos(mouseX, mouseY);
+                    if (id != -1) {
+                        renameObjectAttributeText(i, id);
+                        return;
+                    }                    
+                }
+            }        
         }
     }
 
@@ -210,4 +232,36 @@ function removeObjectRelationIfValid(i) {
         return true;
 	}
     return false;
+
+
+}
+
+function renameObjectAttributeText(id, count) {
+    var vel = this.objects[id].attributes[count].split("\"");
+
+	this.input.style("text-align", "left");
+	ignoreInputAtAll = true;
+    textSize(fontSize);
+	this.input.position(this.objects[id].x + 11 + textWidth(vel[0]), 8 + this.objects[id].y + this.objects[id].nameHeight + this.objects[id].marginY + count * (fontSize + this.objects[id].marginY / 2));
+	this.input.size(max(100, this.objects[id].width - 9 - textWidth(vel[0])), fontSize + this.objects[id].marginY / 2 - 5);
+	this.objectToEdit = id;
+	this.objectAttrToEdit = count;
+	this.input.value(vel[1]);
+	this.input.elt.focus();
+}
+
+function closeObjRename() {
+	if (this.objectToEdit != -1) {
+		if (this.objectAttrToEdit != -1) {
+            var currentVal = this.objects[this.objectToEdit].attributes[this.objectAttrToEdit].split("\"");
+			this.objects[this.objectToEdit].setAttribute(this.objectAttrToEdit, currentVal[0]+"\""+this.input.value()+"\"");
+		}
+	}
+
+	this.input.position(-1000, -1000);
+
+	this.objectToEdit = -1;
+	this.objectAttrToEdit = -1;
+
+	this.ignoreInputAtAll = false;
 }

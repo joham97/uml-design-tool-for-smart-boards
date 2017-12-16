@@ -233,7 +233,11 @@ function closeAll() {
 
 function keyReleased() {
 	if (keyCode == ENTER) {
-		closeRename();
+		if(this.showObjectDiagram){
+			closeObjRename();
+		}else{
+			closeRename();
+		}
 	}
 }
 
@@ -745,7 +749,7 @@ function hitbox(x, y, rectX, rectY, rectWidth, rectHeight) {
 
 function exportClassDiagramToJSON() {
 
-	let data = { classes: [], relations: [] };
+	let data = { classes: [], relations: [], objects: [], objectRelations: [] };
 	for (let i = 0; i < this.classes.length; i++) {
 		data.classes.push({
 			id: i,
@@ -777,6 +781,34 @@ function exportClassDiagramToJSON() {
 			name2: this.relations[i].name2.name,
 			cadinality1: this.relations[i].cadinality1.name,
 			cadinality2: this.relations[i].cadinality2.name
+		});
+	}
+	for (let i = 0; i < this.objects.length; i++) {
+		data.objects.push({
+			id: i,
+			name: this.objects[i].name,
+			attributes: this.objects[i].attributes,
+			x: this.objects[i].x,
+			y: this.objects[i].y
+		});
+	}
+
+	for (let i = 0; i < this.objectRelations.length; i++) {
+		let objectID1 = -1;
+		let objectID2 = -1;
+
+		for (let j = 0; j < this.objects.length; j++) {
+			if (this.objects[j] == this.objectRelations[i].class1) {
+				objectID1 = j;
+			}
+			if (this.objects[j] == this.objectRelations[i].class2) {
+				objectID2 = j;
+			}
+		}
+		data.objectRelations.push({
+			type: this.objectRelations[i].type,
+			objectID1: objectID1,
+			objectID2: objectID2
 		});
 	}
 
@@ -840,5 +872,21 @@ function importClassDiagramFromJSON(result) {
 		relationToAdd.cadinality2.setName(data.relations[i].cadinality2);
 
 		this.relations.push(relationToAdd);
+	}
+
+	for (let i = 0; i < data.objects.length; i++) {	
+		let objectToAdd = new Class(data.objects[i].x, data.objects[i].y);
+		objectToAdd.setName(data.objects[i].name);
+		for (let j = 0; j < data.objects[i].attributes.length; j++) {
+			objectToAdd.addAttribute(data.objects[i].attributes[j]);
+		}
+		objectToAdd.drawAsObject = true;
+		objectToAdd.calculateSize();
+		this.objects.push(objectToAdd);
+	}
+
+	for (let i = 0; i < data.objectRelations.length; i++) {
+		let objectRelationToAdd = new Relation(data.objectRelations[i].type, this.objects[data.objectRelations[i].objectID1], this.objects[data.objectRelations[i].objectID2]);
+		this.objectRelations.push(objectRelationToAdd);
 	}
 }

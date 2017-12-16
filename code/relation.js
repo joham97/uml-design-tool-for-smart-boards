@@ -58,24 +58,24 @@ class Relation {
 
         if (res1 == D_TOP) {
             name12.right = false;
-            name12.x = resClass1.x + fontSize / 2;
+            name12.x = resClass1.x + fontSize * 2 / 3;
             name12.y = resClass1.y - fontSize / 2;
 
             cadinality12.right = true;
-            cadinality12.x = resClass1.x - fontSize / 2;
+            cadinality12.x = resClass1.x - fontSize * 2 / 3;
             cadinality12.y = resClass1.y - fontSize / 2;
         } else if (res1 == D_BOTTOM) {
             name12.right = false;
-            name12.x = resClass1.x + fontSize / 2;
+            name12.x = resClass1.x + fontSize * 2 / 3;
             name12.y = resClass1.y - fontSize / 2;
 
             cadinality12.right = true;
-            cadinality12.x = resClass1.x - fontSize / 2;
+            cadinality12.x = resClass1.x - fontSize * 2 / 3;
             cadinality12.y = resClass1.y - fontSize / 2;
         } else if (res1 == D_LEFT) {
             name12.right = true;
             name12.x = resClass1.x + 12;
-            name12.y = resClass1.y - fontSize / 2 - fontSize;
+            name12.y = resClass1.y - fontSize * 5 / 6 - fontSize;
 
             cadinality12.right = true;
             cadinality12.x = resClass1.x + 12;
@@ -83,7 +83,7 @@ class Relation {
         } else if (res1 == D_RIGHT) {
             name12.right = false;
             name12.x = resClass1.x - 12;
-            name12.y = resClass1.y - fontSize / 2 - fontSize;
+            name12.y = resClass1.y - fontSize * 5 / 6 - fontSize;
 
             cadinality12.right = false;
             cadinality12.x = resClass1.x - 12;
