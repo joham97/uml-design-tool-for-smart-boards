@@ -9,3 +9,6 @@ Folgende Funktionalitäten wurden implementiert:
 *	Objektdiagramm kann aus Klassendiagramm erzeugt werden
 
 Für die Benutzung des Tools wird im **Mozilla Firefox** vorgeschlagen!
+
+Credits:
+Constructor Icon made by Freepik from www.flaticon.com
